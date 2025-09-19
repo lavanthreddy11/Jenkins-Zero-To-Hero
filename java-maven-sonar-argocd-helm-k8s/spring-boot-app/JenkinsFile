@@ -14,11 +14,11 @@ pipeline {
     }
 
     stage('Verify Java Version') {
-            steps {
-                script {
-                    sh 'java -version'
-                }
-            }
+      steps {
+        script {
+          sh 'java -version'
+        }
+      }
     }
 
     stage('Build and Test') {
