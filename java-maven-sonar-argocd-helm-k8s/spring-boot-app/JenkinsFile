@@ -7,10 +7,15 @@ pipeline {
   }
   stages {
     stage('Checkout') {
+      // steps {
+      //   sh 'echo passedd'
+      //   sh 'java -version'
+      //   git branch: 'main', url: 'https://github.com/jeevanchoppa/Jenkins-Zero-To-Hero.git'
+      // }
       steps {
-        sh 'echo passedd'
-        sh 'java -version'
-        git branch: 'main', url: 'https://github.com/jeevanchoppa/Jenkins-Zero-To-Hero.git'
+        git credentialsId: '7d7fdf97-5d40-43b4-8f89-4b3c8ae5cfcf', 
+        url: 'https://github.com/jeevanchoppa/Jenkins-Zero-To-Hero',
+        branch: 'main'
       }
     }
     stage('Build and Test') {
