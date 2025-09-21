@@ -40,6 +40,18 @@ Verify Java is Installed
 java -version
 ```
 
+
+Install Maven:
+
+```
+sudo apt install maven -y 
+```
+Verify Maven is Installed: 
+
+```
+mvn --version 
+```
+
 Now, you can proceed with installing Jenkins
 
 ```
