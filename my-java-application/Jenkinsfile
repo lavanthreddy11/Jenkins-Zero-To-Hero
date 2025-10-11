@@ -1,0 +1,35 @@
+pipeline {
+    agent {
+        docker {
+            image 'openjdk:11'
+            args "-v ${env.WORKSPACE}:/workspace -w /workspace"
+        }
+    }
+
+    environment {
+        WORK_DIR = '/workspace'
+    }
+
+    stages {
+        stage('Setup') {
+            steps {
+                echo "Listing files in workspace:"
+                sh 'ls -la'
+            }
+        }
+
+        stage('Compile Java') {
+            steps {
+                echo "Compiling Java code..."
+                sh 'javac my-java-application/Main.java'
+            }
+        }
+
+        stage('Run Java Program') {
+            steps {
+                echo "Running Java program..."
+                sh 'java my-java-application/Main.java'
+            }
+        }
+    }
+}
