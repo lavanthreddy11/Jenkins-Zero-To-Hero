@@ -2,26 +2,32 @@ pipeline {
     agent {
         docker {
             image 'openjdk:11'
-            args "--volume=${env.WORKSPACE}:/app --workdir=/app"
+            args "--workdir=/workspace"
         }
     }
+
+    environment {
+        WORK_DIR = '/workspace'
+    }
+
     stages {
-        stage('Clone Repo') {
+        stage('Setup') {
             steps {
-                echo 'Assuming code is already present (in a Jenkinsfile inside repo)'
+                echo "Listing files in workspace:"
+                sh 'ls -la'
             }
         }
 
-        stage('Compile') {
+        stage('Compile Java') {
             steps {
-                echo 'Compiling Java code...'
+                echo "Compiling Java code..."
                 sh 'javac Main.java'
             }
         }
 
-        stage('Run') {
+        stage('Run Java Program') {
             steps {
-                echo 'Running Java program...'
+                echo "Running Java program..."
                 sh 'java Main'
             }
         }
