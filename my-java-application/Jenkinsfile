@@ -21,14 +21,14 @@ pipeline {
         stage('Compile Java') {
             steps {
                 echo "Compiling Java code..."
-                sh 'javac Main.java'
+                sh 'javac /my-java-application/Main.java'
             }
         }
 
         stage('Run Java Program') {
             steps {
                 echo "Running Java program..."
-                sh 'java Main'
+                sh 'java /my-java-application/Main'
             }
         }
     }
