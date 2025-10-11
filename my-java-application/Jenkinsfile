@@ -1,22 +1,29 @@
 pipeline {
-    agent any
+    agent {
+        docker {
+            image 'openjdk:11'
+            args '-v $PWD:/app -w /app'
+        }
+    }
     stages {
-        stage('Build Docker Image') {
+        stage('Clone Repo') {
             steps {
-                script {
-                    dockerImage = docker.build('java-hello-image')
-                }
+                echo 'Assuming code is already present (in a Jenkinsfile inside repo)'
             }
         }
 
-        stage('Run Java App in Container') {
+        stage('Compile') {
             steps {
-                script {
-                    dockerImage.run()
-                }
+                echo 'Compiling Java code...'
+                sh 'javac Main.java'
+            }
+        }
+
+        stage('Run') {
+            steps {
+                echo 'Running Java program...'
+                sh 'java Main'
             }
         }
     }
 }
-
-    
