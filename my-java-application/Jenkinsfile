@@ -2,7 +2,7 @@ pipeline {
     agent {
         docker {
             image 'openjdk:11'
-            args "--workdir=/workspace"
+            args "-v ${env.WORKSPACE}:/workspace -w /workspace"
         }
     }
 
