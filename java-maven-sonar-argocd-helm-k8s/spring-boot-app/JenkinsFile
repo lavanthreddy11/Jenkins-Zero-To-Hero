@@ -52,8 +52,7 @@ pipeline {
            }
        }
     }
-
-    stage('Update Deployment File') { 
+    stage('Update Deployment File') {
     environment {
         GIT_REPO_NAME = "Jenkins-Zero-To-Hero"
         GIT_USER_NAME = "lavanthreddy11"
@@ -62,24 +61,31 @@ pipeline {
         withCredentials([string(credentialsId: 'github', variable: 'GITHUB_TOKEN')]) {
             sh '''
                 echo "📝 Updating deployment manifest..."
+                
+                # Go to Jenkins workspace root (repo root)
+                cd $WORKSPACE
 
-                # Move into the repo directory that contains .git
-                cd $WORKSPACE/java-maven-sonar-argocd-helm-k8s
+                # Verify .git folder exists
+                if [ ! -d ".git" ]; then
+                  echo "❌ ERROR: Not in a Git repository!"
+                  exit 1
+                fi
 
-                # Configure git identity
                 git config user.email "abhishek.xyz@gmail.com"
                 git config user.name "Abhishek Veeramalla"
 
-                # Replace image tag with current build number
-                sed -i "s/replaceImageTag/${BUILD_NUMBER}/g" spring-boot-app-manifests/deployment.yml
+                # Update image tag
+                BUILD_NUMBER=${BUILD_NUMBER}
+                sed -i "s/replaceImageTag/${BUILD_NUMBER}/g" java-maven-sonar-argocd-helm-k8s/spring-boot-app-manifests/deployment.yml
 
-                # Commit and push the updated file
-                git add spring-boot-app-manifests/deployment.yml
-                git commit -m "Update deployment image to version ${BUILD_NUMBER}" || echo "No changes to commit"
+                git add java-maven-sonar-argocd-helm-k8s/spring-boot-app-manifests/deployment.yml
+                git commit -m "Update deployment image to version ${BUILD_NUMBER}"
                 git push https://${GITHUB_TOKEN}@github.com/${GIT_USER_NAME}/${GIT_REPO_NAME}.git HEAD:main
             '''
          }
-       }
+        }
+      }
+    
      }
     }
   }
