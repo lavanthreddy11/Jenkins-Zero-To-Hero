@@ -33,7 +33,7 @@ pipeline {
                 docker { image 'lavanth11/maven-java17-docker:v1' }
             }
             environment {
-                SONAR_TOKEN = credentials('sonar-token')
+                SONAR_TOKEN = credentials('sonarqube')
             }
             steps {
                 sh '''
